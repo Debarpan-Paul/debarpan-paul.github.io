@@ -1,0 +1,263 @@
+/* ==========================================================================
+   Star Animation Stylesheet (stars.css)
+   - Styles for the toggle button and the falling star animation.
+   - Used across multiple pages (index.html, achievements.html, interests.html, etc.)
+   ========================================================================== */
+
+/* ========== Toggle Button Styles ========== */
+/* Styles for the button used to turn the star animation on/off. */
+
+#toggle-trails {
+    position: fixed; /* Keeps the button fixed relative to the viewport */
+    top: 20px; /* Position 20px from the top */
+    right: 20px; /* Position 20px from the right */
+    width: 50px; /* Button width */
+    height: 50px; /* Button height */
+    background-color: #f0e68c; /* Fallback background color (Khaki) */
+    /* Creates a radial gradient for a moon-like appearance */
+    background: radial-gradient(circle at 30% 30%, #f0e68c, #d2b48c); /* Light yellow to tan */
+    border-radius: 50%; /* Makes the button circular */
+    /* Creates multiple shadows for a complex glowing/inset effect */
+    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.2), /* Inner dark shadow (bottom-right) */
+                inset 0 0 20px rgba(255, 255, 255, 0.7), /* Inner white glow */
+                0 0 30px rgba(255, 215, 0, 0.8); /* Outer gold glow */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transitions for hover effects */
+    z-index: 10000; /* Ensures the button is visually on top of most elements */
+    border: none; /* Remove default button border */
+}
+
+/* Pseudo-elements for creating moon crater effects */
+#toggle-trails::before,
+#toggle-trails::after {
+    content: ''; /* Required for pseudo-elements to show */
+    position: absolute; /* Position relative to the button */
+    border-radius: 50%; /* Make them circular */
+    /* Creates a subtle dark radial gradient for the crater appearance */
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.2), transparent);
+}
+
+/* Style for the first crater */
+#toggle-trails::before {
+    width: 15px; /* Crater width */
+    height: 15px; /* Crater height */
+    top: 10px; /* Position from top */
+    left: 15px; /* Position from left */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adds depth */
+}
+
+/* Style for the second crater */
+#toggle-trails::after {
+    width: 10px; /* Crater width */
+    height: 10px; /* Crater height */
+    top: 25px; /* Position from top */
+    left: 30px; /* Position from left */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Adds depth */
+}
+
+/* Hover effect for the toggle button */
+#toggle-trails:hover {
+    /* Enhances the shadows for a stronger glow effect on hover */
+    box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3), /* Darker inner shadow */
+                inset 0 0 25px rgba(255, 255, 255, 0.8), /* Brighter inner glow */
+                0 0 35px rgba(255, 215, 0, 0.9); /* Stronger outer glow */
+}
+
+/* ========== Star Container ========== */
+/* Container holding all the individual star elements. */
+
+.star-container {
+    position: fixed; /* Fixed position to cover the viewport */
+    top: 0; left: 0; /* Position at the top-left corner */
+    pointer-events: none; /* Allows clicks/hovers to pass through to elements underneath */
+    z-index: 9999; /* Position just below the toggle button */
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Hides stars that move outside the container boundaries */
+    display: none; /* Hide the stars by default (toggled by JS) */
+}
+
+/* Class added by JavaScript to show the stars */
+.star-container.active {
+    display: block; /* Makes the star container visible */
+}
+
+/* ========== Individual Star Styles ========== */
+/* Styles for each falling star element. */
+
+.star {
+    position: absolute; /* Positioned absolutely within the star-container */
+    width: 5px; /* Star width */
+    height: 5px; /* Star height */
+    background-color: white; /* Star color */
+    border-radius: 50%; /* Makes the star circular */
+    opacity: 0.8; /* Slight transparency */
+    /* Applies the 'fall' animation, duration set by CSS variable, infinite loop, linear timing */
+    animation: fall var(--duration) infinite linear;
+    /* Creates multiple box shadows to simulate a long, glowing trail */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5),  /* Innermost, brightest part */
+                0 0 50px rgba(255, 255, 255, 0.4),
+                0 0 200px rgba(255, 255, 255, 0.3),
+                0 0 500px rgba(255, 255, 255, 0.2),
+                0 0 800px rgba(255, 255, 255, 0.1),
+                0 0 1000px rgba(255, 255, 255, 0.9); /* Outermost, faintest part (adjust opacity/spread as needed) */
+    /* Note: The --duration variable is set individually for each star below */
+    /* Note: The --random variable is set by JS (stars.js) */
+}
+
+
+/* ========== Star Animation Keyframes ========== */
+/* Defines the 'fall' animation sequence. */
+
+@keyframes fall {
+    /* Start of the animation (0%) */
+    0% {
+        /* Starts above the screen, slight horizontal offset */
+        transform: translateY(-100px) translateX(0);
+        /* Initial short trail effect */
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                    0 0 20px rgba(255, 255, 255, 0.4),
+                    0 0 30px rgba(255, 255, 255, 0.3),
+                    0 0 40px rgba(255, 255, 255, 0.2),
+                    0 0 50px rgba(255, 255, 255, 0.1);
+        opacity: 1; /* Fully opaque */
+    }
+    /* Middle of the animation (50%) */
+    50% {
+        /* Moves down and diagonally to the left */
+        transform: translateY(50vh) translateX(-10vw);
+        /* Longer trail effect */
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                    0 0 40px rgba(255, 255, 255, 0.4),
+                    0 0 60px rgba(255, 255, 255, 0.3),
+                    0 0 80px rgba(255, 255, 255, 0.2),
+                    0 0 100px rgba(255, 255, 255, 0.1);
+        opacity: 0.7; /* Star starts to fade */
+    }
+    /* End of the animation (100%) */
+    100% {
+        /* Moves off the bottom of the screen, further left */
+        transform: translateY(100vh) translateX(-20vw);
+        /* Longest trail effect */
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5),
+                    0 0 60px rgba(255, 255, 255, 0.4),
+                    0 0 90px rgba(255, 255, 255, 0.3),
+                    0 0 120px rgba(255, 255, 255, 0.2),
+                    0 0 150px rgba(255, 255, 255, 0.1);
+        opacity: 0; /* Star completely faded */
+    }
+}
+
+/* ========== Star Randomization ========== */
+/* Uses :nth-child selectors and CSS variables (--random, --duration)
+   to give each star a unique starting position, speed, and delay.
+   The '--random' variable should be set via JavaScript (e.g., Math.random()). */
+
+/* Example for star 1 */
+.star:nth-child(1) {
+    /* Calculates starting horizontal position based on random value */
+    left: calc(95% + 5vw * var(--random));
+    /* Calculates animation duration based on random value */
+    --duration: calc(4s + 2s * var(--random));
+    /* Calculates animation delay based on random value */
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+/* Repeat for other stars, adjusting base values for variety */
+.star:nth-child(2) {
+    left: calc(90% + 10vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(3) {
+    left: calc(85% + 15vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(4) {
+    left: calc(80% + 20vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(5) {
+    left: calc(75% + 25vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(6) {
+    left: calc(70% + 30vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(7) {
+    left: calc(65% + 35vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(8) {
+    left: calc(60% + 40vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(9) {
+    left: calc(55% + 45vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(10) {
+    left: calc(50% + 50vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(11) {
+    left: calc(45% + 55vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(12) {
+    left: calc(40% + 60vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(13) {
+    left: calc(35% + 65vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(14) {
+    left: calc(30% + 70vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+.star:nth-child(15) {
+    left: calc(25% + 75vw * var(--random));
+    --duration: calc(4s + 2s * var(--random));
+    animation-delay: calc(0s + 2s * var(--random));
+}
+
+/* ========== Mobile Hiding ========== */
+/* Hides the toggle button and star container on smaller screens (e.g., mobile) */
+@media (max-width: 768px) {
+    #toggle-trails,
+    .star-container {
+        display: none; /* Hide these elements */
+    }
+}
+
+/* ========== END OF STAR ANIMATION CSS ========== */
+/* This CSS file provides the styles for the toggle button
+   and the falling star animation effect, including randomization
+   and responsiveness for hiding on mobile devices. */

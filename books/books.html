@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debarpan Paul's Books</title>
+    <meta name="description" content="Explore the books by Debarpan Paul, including 'Is It Possible in the Universe?' and more.">
+    <meta name="keywords" content="Debarpan Paul, books, author, Is It Possible in the Universe?, science fiction, cosmic journey">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="books.css">
+    <link href="../css/stars.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../images/DebarpanPaul.ico">
+</head>
+<body>
+    <div class="custom-cursor" id="custom-cursor"></div>
+    <button id="toggle-trails" class="moon-toggle" aria-label="Toggle Trails"></button>
+
+    <div class="star-container">
+        <div class="star"></div> <div class="star"></div> <div class="star"></div> <div class="star"></div> <div class="star"></div>
+        <div class="star"></div> <div class="star"></div> <div class="star"></div> <div class="star"></div> <div class="star"></div>
+        <div class="star"></div> <div class="star"></div> <div class="star"></div> <div class="star"></div> <div class="star"></div>
+    </div>
+
+    <header>
+        <h1 class="author-name">Debarpan Paul's Books</h1>
+    </header>
+
+    <section class="books-container">
+        <div class="book-card"
+             data-full-desc='"Is It Possible in the Universe?" invites readers on a cosmic journey, blending science and speculation to explore the boundless possibilities of our universe. From dark matter to extraterrestrial life, each chapter sparks curiosity and invites everyone to ponder the mysteries of existence. Accessible to all, this book echoes Carl Sagans sentiment that incredible discoveries await. Join the voyage through the cosmos, where the universe within us meets the universe around us. Welcome to the exploration. Enjoy! - Debarpan Paul'
+             data-buy-link-1="https://notionpress.com/read/is-it-possible-in-universe?srsltid=AfmBOoq36HpRYzic5OeiXI0tgaAuXaNkfEDgo-u_jYl3G-MEbqahdJaN"
+             data-buy-link-1-text="Buy on Notion Press"
+             data-buy-link-2="https://www.flipkart.com/is-it-possible-in-universe/p/itmc9642bbdd6b24?pid=9798894464732&lid=LSTBOK97988944647324HXX2Q&marketplace=FLIPKART&cmpid=content_book_8965229628_gmc"
+             data-buy-link-2-text="Buy on Flipkart"
+             data-buy-link-3="https://www.amazon.in/Debarpan-Paul/e/B0D95XNCT8/ref=zg_bs_g_4149710031_d_sccl_17_bl/000-0000000-0000000"
+             data-buy-link-3-text="Amazon Author Page"
+             >
+            <img src="../images/books/book1.jpg" alt="Is It Possible In Universe? Cover" class="book-image">
+            <div class="book-info">
+                <h2 class="book-name">IS IT POSSIBLE IN UNIVERSE?</h2>
+                <p class="book-description">"Is It Possible in the Universe?" invites readers on a cosmic journey, blending science and speculation to explore the boundless possibilities of our universe. From dark matter to extraterrestrial life, each chapter sparks curiosity and invites everyone to ponder the mysteries of existence. Accessible to all, this book echoes Carl Sagan's sentiment that incredible discoveries await. Join the voyage through the cosmos, where the universe within us meets the universe around us. Welcome to the exploration. Enjoy! - Debarpan Paul</p>
+            </div>
+        </div>
+        </section>
+
+    <footer class="footer">
+        <!-- <p>&copy; 2025 Shitij Halder & Debarpan Paul. All rights reserved.</p> -->
+        <div class="footer-doodles">
+            <img src="../images/svg/stars-svgrepo-com.svg" alt="Star Doodle" class="footer-doodle">
+            <img src="../images/svg/moon-and-stars-svgrepo-com.svg" alt="Moon Doodle" class="footer-doodle">
+            <img src="../images/svg/planet-svgrepo-com.svg" alt="Planet Doodle" class="footer-doodle">
+            <img src="../images/svg/satellite-svgrepo-com.svg" alt="Satellite" class="footer-doodle">
+            <img src="../images/svg/atronaut-svgrepo-com.svg" alt="Astronaut" class="footer-doodle">
+            <img src="../images/svg/atom-svgrepo-com.svg" alt="Atom" class="footer-doodle">
+            <img src="../images/svg/ring-ship-svgrepo-com.svg" alt="Ring Ship" class="footer-doodle">
+        </div>
+    </footer>
+
+    <div id="bookModal" class="modal-overlay">
+      <div class="modal-content">
+        <span class="modal-close-btn" title="Close">&times;</span>
+        <div class="modal-body">
+          <img id="modalBookImage" src="" alt="Book Cover" class="modal-book-image">
+          <div class="modal-book-info">
+            <h3 id="modalBookName">Book Title Here</h3>
+            <p id="modalBookDescription">Full book description goes here...</p>
+            <div id="modalBuyLinks" class="modal-buy-links">
+              <h4>Get Your Copy:</h4>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/script.js"></script> <script src="../js/stars.js"></script>
+
+</body>
+</html>

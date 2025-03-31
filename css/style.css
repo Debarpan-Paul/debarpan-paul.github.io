@@ -1,0 +1,411 @@
+/* ==========================================================================
+   Main Stylesheet (style.css)
+   - Styles for the homepage (index.html) including header, author details, cards.
+   - Includes base styles, responsive adjustments, footer, and custom cursor.
+   ========================================================================== */
+
+/* ========== Custom Font Definitions ========== */
+/* Loads custom fonts used on the page. */
+
+@font-face {
+    font-family: 'Transcity'; /* Define the font name */
+    /* Path to the font file (ensure this path is correct from the CSS file's location) */
+    /* NOTE: Ensure '/fonts/transcity/Transcity.otf' is the correct path relative to your CSS file */
+    src: url('/fonts/transcity/Transcity.otf') format('opentype');
+    font-display: swap; /* Improves perceived loading speed */
+}
+
+@font-face {
+    font-family: 'Milker'; /* Define the font name */
+    /* Path to the font file */
+    /* NOTE: Ensure '/fonts/milker/Milker.otf' is the correct path relative to your CSS file */
+    src: url('/fonts/milker/Milker.otf') format('opentype');
+    font-display: swap; /* Improves perceived loading speed */
+}
+
+/* ========== Apply Custom Fonts ========== */
+/* Selectors applying the loaded custom fonts to specific elements. */
+
+.author-name {
+    font-family: 'Transcity', sans-serif; /* Use Transcity for the main author name */
+}
+
+.author-short-text,
+.author-brief-text {
+    font-family: 'Milker', sans-serif; /* Use Milker for the descriptive texts */
+}
+
+/* ========== Global Styles & Reset ========== */
+
+/* Universal reset for all elements */
+* {
+    margin: 0; /* Remove default browser margins */
+    padding: 0; /* Remove default browser padding */
+    box-sizing: border-box; /* Include padding and border in element's total width/height */
+}
+
+/* Base body styles */
+body {
+    font-family: 'Poppins', sans-serif; /* Default fallback font if custom fonts don't load */
+    background-color: #121212; /* Dark background color */
+    color: #fff; /* Default text color (white) */
+    cursor: none; /* Hide the default system cursor to show only the custom one */
+    /* Added flex properties to ensure proper footer positioning */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures body takes at least full viewport height */
+}
+
+/* ========== Header Styles ========== */
+/* Styles for the <header> element */
+header {
+    text-align: center; /* Center-align content within the header (mobile-first) */
+    padding: 2rem 0; /* Add padding top/bottom */
+    /* Header does not grow or shrink in the flex layout */
+    flex-shrink: 0;
+}
+
+/* ========== Author Details Section ========== */
+/* Container for the author's image and info */
+.author-details {
+    display: flex; /* Use Flexbox for layout */
+    flex-direction: column; /* Stack image and text vertically on mobile */
+    align-items: center; /* Center items horizontally */
+    padding: 1rem; /* Padding around the section */
+    /* Author details section does not grow or shrink in the flex layout */
+    flex-shrink: 0;
+}
+
+/* Author's profile image */
+.author-image {
+    width: 180px; /* Set image width */
+    height: 180px; /* Set image height */
+    border-radius: 50%; /* Make the image circular */
+    margin-bottom: 1rem; /* Space below the image */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+}
+
+/* Container for the author's textual information */
+.author-info {
+    text-align: center; /* Center text (mobile-first) */
+    padding: 0 1rem; /* Horizontal padding */
+}
+
+/* Author's name (H1) */
+.author-name {
+    font-size: 4rem; /* Font size for mobile */
+    font-weight: bold; /* Make text bold */
+    color: #FFD700; /* Gold color */
+    /* Font family is set globally above */
+}
+
+/* Short introductory text below the name */
+.author-short-text {
+    font-size: 1.0rem; /* Font size */
+    color: #FFD700; /* Gold color */
+    margin-top: 0.5rem; /* Space above this text */
+    /* Font family is set globally above */
+}
+
+/* Longer brief text (initially hidden on mobile) */
+.author-brief-text {
+    font-size: 1rem; /* Font size */
+    color: #fff; /* White color */
+    margin-top: 0.8rem; /* Space above this text */
+    display: none; /* Hide this text by default (mobile-first) */
+    /* Font family is set globally above */
+}
+
+/* ========== Responsive Styles (Desktop - 1024px and up) ========== */
+/* Adjustments specifically for larger screens */
+@media (min-width: 1024px) {
+    /* Adjust header alignment and padding */
+    header {
+        text-align: left; /* Align header content to the left */
+        padding-left: 2rem; /* Add left padding */
+    }
+
+    /* Adjust author details layout */
+    .author-details {
+        flex-direction: row; /* Place image and text side-by-side */
+        justify-content: flex-start; /* Align items to the start (left) */
+        align-items: center; /* Vertically align items in the center */
+    }
+
+    /* Adjust author image size and spacing */
+    .author-image {
+        margin-right: 2rem; /* Add space to the right of the image */
+        margin-bottom: 0; /* Remove bottom margin */
+        width: 250px; /* Increase image width */
+        height: 250px; /* Increase image height */
+    }
+
+    /* Adjust author info alignment */
+    .author-info {
+        text-align: left; /* Align text to the left */
+    }
+
+    /* Increase author name font size */
+    .author-name {
+        font-size: 6rem;
+    }
+
+    /* Increase short text font size */
+    .author-short-text {
+        font-size: 1.4rem;
+        /* Color remains gold */
+    }
+
+    /* Show and style the brief text */
+    .author-brief-text {
+        font-size: 1.0rem; /* Font size */
+        color: #fff; /* White color */
+        margin-top: 1rem; /* Space above */
+        display: block; /* Make the text visible */
+    }
+
+    /* Card border-radius override for desktop is handled in the later media query */
+}
+
+/* ========== Card Styles ========== */
+/* Styles for the main container holding the cards */
+.container {
+    display: grid; /* Use CSS Grid for the card layout */
+    /* Responsive columns: fit as many as possible, each at least 250px wide */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem; /* Space between cards */
+    padding: 2rem; /* Padding around the grid container */
+    /* Added flex-grow to make this container take available space */
+    flex-grow: 1;
+}
+
+/* Individual card styling */
+.card {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    padding: 1rem; /* Inner padding */
+    border-radius: 1rem; /* Rounded corners (mobile-first) */
+    transition: transform 0.3s ease, background 0.3s ease; /* Smooth hover transitions */
+    cursor: pointer; /* Indicate cards are clickable (if they link somewhere) */
+    position: relative; /* Needed for absolute positioning of child elements (like bookmark icon) */
+    /* Note: height and border-radius might be overridden in desktop media query */
+}
+
+/* Card hover effect */
+.card:hover {
+    transform: scale(1.05); /* Slightly enlarge the card */
+    /* Consider changing background on hover for more feedback */
+    /* background: rgba(255, 215, 0, 0.15); */ /* Example: Slight gold tint */
+}
+
+/* Card title (H2) */
+.card h2 {
+    font-size: 1.2rem; /* Font size */
+    color: #FFD700; /* Gold color */
+}
+
+/* Card paragraph text */
+.card p {
+    font-size: 0.8rem; /* Font size */
+    margin-top: 0.5rem; /* Space above the paragraph */
+}
+
+/* "Read More" button style */
+.read-more {
+    margin-top: 1rem; /* Space above the button */
+    padding: 0.4rem 0.8rem; /* Padding inside the button */
+    background: #FFD700; /* Gold background */
+    color: #121212; /* Dark text color for contrast */
+    border: none; /* Remove default border */
+    border-radius: 0.2rem; /* Slightly rounded corners */
+    font-weight: bold; /* Make text bold */
+    /* Subtle "push down" effect, moves up on hover */
+    transform: translateY(3px);
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+}
+
+/* "Read More" button hover effect */
+.card:hover .read-more {
+    transform: translateY(0); /* Move button back to original position */
+}
+
+/* ========== Bookmark Icon ========== */
+/* Style for the decorative image on the card (e.g., book cover) */
+.bookmark-icon {
+    position: absolute; /* Position relative to the card */
+    top: 50%; /* Position vertically centered */
+    right: 10px; /* Position from the right edge */
+    transform: translateY(-50%); /* Fine-tune vertical centering */
+    width: 100px; /* Icon width (mobile) */
+    height: 100px; /* Icon height (mobile) */
+    object-fit: contain; /* Scale image while preserving aspect ratio */
+    transition: opacity 0.3s ease; /* Smooth opacity transition (optional) */
+    /* pointer-events: none; If the icon itself shouldn't be interactive */
+}
+
+/* Bookmark Icon Adjustments for Desktop (1024px and up) */
+@media (min-width: 1024px) {
+    /* Adjust grid layout for desktop */
+    .container {
+        grid-template-columns: repeat(3, 1fr); /* Explicitly 3 columns */
+        gap: 1rem; /* Space between cards */
+        /* flex-grow: 1 is already set outside the media query */
+    }
+
+    /* Set fixed height and override border-radius for cards on desktop */
+    .card {
+        width: 100%; /* Ensure card takes full column width */
+        height: 300px; /* Fixed height for uniform look */
+        border-radius: 5px; /* Smaller border radius for desktop cards */
+    }
+
+    /* Increase size and adjust position of bookmark icon */
+    .bookmark-icon {
+        width: 300px; /* Larger width */
+        height: 270px; /* Larger height */
+        right: 0; /* Position flush to the right edge */
+        /* Centering is maintained by top: 50% and transform: translateY(-50%) */
+    }
+}
+
+/* ========== Typography & Links within Cards ========== */
+
+/* Style for specific book name text */
+.card-intro {
+    font-weight: bold; /* Make text bold */
+    color: #FFD700; /* Gold color */
+}
+
+/* Style for highlighted text spans */
+.highlight {
+    font-weight: bold; /* Make text bold */
+    color: #FFD700; /* Gold color */
+}
+
+/* Hide Book Description on Mobile (up to 600px) */
+/* This targets descriptions specifically within .card-content */
+@media (max-width: 600px) {
+    .card-content .card-description {
+        display: none; /* Hide the description */
+    }
+}
+
+/* Remove underline from links within card content or bookmark icons */
+.card-content a,
+.card-content .bookmark-icon a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit color from parent */
+}
+
+
+/* ========== Footer Styles ========== */
+/* Styles for the page footer, ensuring consistency */
+
+.footer {
+    background: #121212; /* Matches body background */
+    color: #FFD700; /* Gold text */
+    text-align: center; /* Center content */
+    padding: 2rem 1rem 1rem 1rem; /* Padding: Top, L/R, Bottom */
+    font-family: 'Milker', sans-serif; /* Use Milker font */
+    overflow: hidden; /* Prevent content (doodles) from spilling out */
+    margin-top: 4rem; /* Space above the footer */
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding in width */
+    /* Footer does not grow, and does not shrink in the flex layout */
+    flex-shrink: 0;
+}
+
+/* Footer paragraph text */
+.footer p {
+    margin: 0 0 1rem 0; /* Bottom margin */
+    font-size: 0.9rem; /* Font size */
+}
+
+/* Container for footer doodles */
+.footer-doodles {
+    position: relative; /* For potential positioning context */
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: center; /* Center items horizontally */
+    gap: 2rem; /* Space between doodles */
+}
+
+/* Individual footer doodle images */
+.footer-doodle {
+    width: 50px; /* Doodle width */
+    height: 50px; /* Doodle height */
+    object-fit: contain; /* Scale image correctly */
+    animation: float 8s ease-in-out infinite; /* Apply floating animation */
+    opacity: 0.9; /* Slight transparency */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth hover transition */
+}
+/* Doodle hover effect */
+.footer-doodle:hover {
+    transform: scale(1.2); /* Enlarge on hover */
+    opacity: 1; /* Fully opaque on hover */
+}
+
+/* Floating animation keyframes */
+@keyframes float {
+    0% { transform: translateY(0px); } /* Start position */
+    50% { transform: translateY(-15px); } /* Move up */
+    100% { transform: translateY(0px); } /* Back to start */
+}
+
+/* Stagger animation delays for doodles */
+.footer-doodle:nth-child(1) { animation-delay: 0s; }
+.footer-doodle:nth-child(2) { animation-delay: 1s; }
+.footer-doodle:nth-child(3) { animation-delay: 2s; }
+.footer-doodle:nth-child(4) { animation-delay: 3s; }
+.footer-doodle:nth-child(5) { animation-delay: 4s; }
+.footer-doodle:nth-child(6) { animation-delay: 5s; }
+.footer-doodle:nth-child(7) { animation-delay: 6s; }
+
+/* Responsive Footer Styles for Tablets (up to 768px) */
+@media (max-width: 768px) {
+    .footer { padding: 1.5rem 1rem 1rem 1rem; margin-top: 3rem; }
+    .footer-doodles { gap: 1rem; } /* Reduce gap */
+    .footer-doodle { width: 40px; height: 40px; } /* Smaller doodles */
+    .footer p { font-size: 0.8rem; } /* Smaller text */
+}
+/* Responsive Footer Styles for Mobile (up to 480px) */
+@media (max-width: 480px) {
+    .footer { padding: 1rem 0.5rem 0.5rem 0.5rem; margin-top: 2rem; }
+    .footer-doodles { gap: 0.8rem; } /* Further reduce gap */
+    .footer-doodle { width: 35px; height: 35px; } /* Even smaller doodles */
+    .footer p { font-size: 0.75rem; } /* Even smaller text */
+}
+
+/* ========== Custom Cursor ========== */
+/* Styles for the custom cursor element */
+
+/* Body rule to hide default cursor is already defined globally near the top */
+/* body { cursor: none; } */
+
+.custom-cursor {
+    position: fixed; /* Position relative to the viewport */
+    width: 20px; /* Cursor width */
+    height: 20px; /* Cursor height */
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+    border-radius: 50%; /* Make it circular */
+    pointer-events: none; /* Allow clicks/hovers to pass through */
+    z-index: 10000; /* Keep it on top */
+    /* Center the element on the actual mouse coordinates */
+    transform: translate(-50%, -50%);
+    /* Smooth transitions for visual changes */
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+/* Example hover state (requires JS to add the 'hover' class) */
+/* Uncomment and customize if needed */
+/*
+.custom-cursor.hover {
+    background-color: rgba(255, 215, 0, 0.8); // Example: Gold tint on hover
+    transform: translate(-50%, -50%) scale(1.5); // Example: Make cursor larger
+}
+*/
+
+/* ========== END OF MAIN STYLESHEET (style.css) ========== */
+/* This CSS file is specifically for the main homepage (index.html).
+   It includes styles for the header, author details, cards layout,
+   responsive design, footer, and custom cursor functionality. */

@@ -1,0 +1,498 @@
+/* ==========================================================================
+   Books Page Stylesheet (books.css)
+   - Styles specifically for the books page (books.html).
+   - Defines layout for book cards, responsive adjustments, footer, and modal.
+   ========================================================================== */
+
+/* ========== BASE STYLES & FLEXBOX FOOTER FIX ========== */
+/* These styles ensure the basic page structure and that the footer
+   sticks to the bottom even on pages with little content. */
+
+/* Ensures the html element takes up the full viewport height */
+html {
+    height: 100%;
+}
+
+/* Sets up the main page layout using Flexbox */
+body {
+    display: flex; /* Enables Flexbox */
+    flex-direction: column; /* Stacks children (header, main, footer) vertically */
+    min-height: 100vh; /* Ensures the body is at least the full viewport height */
+    margin: 0; /* Removes default browser margin */
+    background: #0f0f0f; /* Sets the dark background color (consistent with other pages) */
+    /* Note: Font family, default color, and cursor:none are likely inherited from style.css */
+}
+
+/* Main content container for the book cards */
+.books-container {
+    display: grid; /* Uses CSS Grid for layout */
+    /* Creates responsive columns: fit as many as possible, minimum 200px width each */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem; /* Space between book cards */
+    padding: 0.5rem 2rem 2rem 2rem; /* Padding: Top 0.5rem, L/R 2rem, Bottom 2rem */
+    justify-items: center; /* Centers cards horizontally within their grid cells if space allows */
+    align-items: start; /* Aligns cards to the top of their grid cells */
+    flex-grow: 1; /* Allows this container to expand and push the footer down */
+}
+
+
+/* ========== Author Name / Page Title ========== */
+/* Styles for the main H1 title on the books page */
+.author-name {
+    /* Note: This class name might be confusing here, consider renaming to .page-title */
+    font-size: 2.5rem; /* Base font size */
+    font-family: 'Transcity', sans-serif; /* Applies custom Transcity font */
+    color: #FFD700; /* Gold color */
+    text-align: center; /* Centers the title */
+    display: block; /* Ensures it takes its own line */
+    margin: 0 auto 0.5rem; /* Removes top margin, centers horizontally, adds bottom margin */
+    font-weight: bold; /* Makes text bold */
+    flex-shrink: 0; /* Prevents shrinking if body were flex container (less relevant now) */
+}
+
+/* Desktop Title Size Adjustment */
+@media (min-width: 1200px) {
+    .author-name {
+        font-size: 4rem; /* Increases font size for large screens */
+        margin: 0 auto 0.5rem; /* Keeps top margin 0 */
+    }
+}
+
+/* ========== Book Card Layout ========== */
+/* Styles for the individual book card containers */
+
+.book-card {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    padding: 1rem; /* Inner padding */
+    border-radius: 1rem; /* Rounded corners */
+    transition: transform 0.3s ease, background 0.3s ease; /* Smooth hover transitions */
+    text-align: left; /* Default text alignment within the card */
+    width: 100%; /* Card takes full width of its grid column */
+    max-width: none; /* Overrides any potential max-width */
+    position: relative; /* Establishes positioning context for absolute children (modal trigger?) */
+    display: grid; /* Uses CSS Grid for internal layout (image | text) */
+    /* Defines two columns: fixed 120px for image, auto for text */
+    grid-template-columns: 120px auto;
+    grid-template-rows: auto; /* Rows adjust height automatically */
+    align-items: start; /* Aligns items to the top of their grid areas */
+    height: auto; /* Height adjusts to content */
+    gap: 1rem; /* Space between the image and text columns */
+    z-index: 1; /* Ensures card is above background elements */
+    cursor: pointer; /* Indicates the card is clickable (for the modal) */
+}
+
+/* Book card hover effect */
+.book-card:hover {
+    transform: scale(1.05); /* Slightly enlarges the card */
+    background: rgba(255, 215, 0, 0.2); /* Adds a gold tint to the background */
+}
+
+/* Styles for the book cover image within the card */
+.book-image {
+    grid-column: 1; /* Places image in the first column */
+    grid-row: 1; /* Places image in the first row */
+    width: 100%; /* Image takes full width of its column (120px) */
+    max-width: 120px; /* Explicitly sets max-width */
+    height: auto; /* Height adjusts based on aspect ratio */
+    aspect-ratio: 2 / 3; /* Enforces a 2:3 aspect ratio (common for books) */
+    border-radius: 0.5rem; /* Slightly rounded corners for the image */
+    object-fit: cover; /* Scales image to cover the area, cropping if needed */
+}
+
+/* Container for the book's text elements (title, description) */
+.book-info {
+    grid-column: 2; /* Places text info in the second column */
+    grid-row: 1; /* Places text info in the first row */
+    padding-left: 0; /* No extra padding needed, gap handles spacing */
+    overflow: hidden; /* Prevents text overflow issues (though not strictly necessary here) */
+    display: flex; /* Uses Flexbox for vertical alignment of title/description */
+    flex-direction: column; /* Stacks title and description vertically */
+    justify-content: flex-start; /* Aligns text to the top */
+}
+
+/* Styles for the book title (H2) on the card */
+.book-name {
+    font-size: 1.2rem; /* Font size */
+    font-family: 'Transcity', sans-serif; /* Applies custom Transcity font */
+    font-weight: bold; /* Makes title bold */
+    margin-top: 0; /* Removes default top margin */
+    margin-bottom: 0.3rem; /* Small space below the title */
+    white-space: normal; /* Allows title to wrap */
+    overflow: hidden; /* Hides overflow */
+    text-overflow: ellipsis; /* Adds "..." if title is too long (may need height/line-clamp) */
+    text-align: left; /* Ensures text is left-aligned */
+    color: #FFD700; /* Gold color */
+}
+
+/* Styles for the book description paragraph on the card */
+.book-description {
+    font-size: 0.8rem; /* Font size */
+    color: #fff; /* White color */
+    font-family: 'Milker', sans-serif; /* Applies custom Milker font */
+    display: block; /* Ensures it takes its own line */
+    margin-top: 0.3rem; /* Space above the description */
+    padding-left: 0; /* No extra padding */
+    line-height: 1.4; /* Spacing between lines */
+    word-wrap: break-word; /* Allows long words to break */
+    text-align: left; /* Ensures text is left-aligned */
+    font-weight: bold; /* Makes description bold */
+    /* NOTE: Description might be truncated or hidden on smaller screens via JS/other CSS */
+}
+
+/* ========== Device-Specific Adjustments ========== */
+/* Media queries to adjust layout based on screen width */
+
+/* Mobile View (screens <= 599px) */
+@media (max-width: 599px) {
+    /* Adjust container padding */
+    .books-container { padding: 0.5rem 1rem 2rem 1rem; }
+    /* Change card layout to stacked */
+    .book-card {
+        grid-template-columns: 1fr; /* Single column layout */
+        grid-template-rows: auto auto; /* Explicit rows for image and info */
+        gap: 1rem; /* Space between image and info */
+        padding: 0.8rem; /* Reduce padding */
+    }
+    /* Center the book image */
+    .book-image {
+        grid-column: 1; grid-row: 1; /* Ensure it's in the first cell */
+        width: 80%; /* Reduce image width */
+        max-width: 200px; /* Set a max width */
+        margin: 0 auto; /* Center the image horizontally */
+    }
+    /* Adjust text info positioning and alignment */
+    .book-info {
+        grid-column: 1; grid-row: 2; /* Place info below image */
+        text-align: center; /* Center text content */
+    }
+    /* Adjust text sizes and alignment for mobile */
+    .book-name {
+        font-size: 1rem; /* Smaller title */
+        text-align: center; margin-bottom: 0.2rem;
+    }
+    .book-description {
+        font-size: 0.75rem; /* Smaller description */
+        text-align: center; margin-top: 0.2rem;
+    }
+}
+
+/* Tablet View (screens >= 600px) */
+@media (min-width: 600px) {
+    /* Two cards per row */
+    .books-container { grid-template-columns: repeat(2, 1fr); }
+    /* Revert card layout to side-by-side */
+    .book-card {
+        grid-template-columns: 120px auto; /* Image | Text layout */
+        grid-template-rows: auto; /* Reset rows */
+        gap: 1rem; padding: 1rem; /* Reset gap and padding */
+    }
+    /* Reset image styles */
+    .book-image {
+        grid-column: 1; grid-row: 1;
+        width: 100%; max-width: 120px;
+        margin: 0; /* Remove mobile centering */
+    }
+    /* Reset text info styles */
+    .book-info {
+        grid-column: 2; grid-row: 1;
+        text-align: left; /* Revert text alignment */
+    }
+    /* Reset text sizes and alignment */
+    .book-name {
+        text-align: left; margin-bottom: 0.3rem;
+        font-size: 1.2rem; /* Base size */
+    }
+    .book-description {
+        text-align: left; margin-top: 0.3rem;
+        font-size: 0.8rem; /* Base size */
+    }
+}
+
+/* Large Tablet / Small Desktop View (screens >= 900px) */
+@media (min-width: 900px) {
+    /* Three cards per row */
+    .books-container { grid-template-columns: repeat(3, 1fr); }
+    /* Increase image column width and gap */
+    .book-card {
+        grid-template-columns: 160px auto; /* Wider image column */
+        gap: 1.2rem;
+    }
+    /* Adjust image max-width to match column */
+    .book-image { max-width: 160px; }
+    /* Text sizes inherit from tablet view unless overridden */
+}
+
+/* Desktop View (screens >= 1200px) */
+@media (min-width: 1200px) {
+    /* Keep three cards per row */
+    .books-container { grid-template-columns: repeat(3, 1fr); }
+    /* Further increase image column width and gap */
+    .book-card {
+        grid-template-columns: 200px auto; /* Even wider image column */
+        gap: 1.5rem;
+    }
+    /* Adjust image max-width */
+    .book-image { max-width: 200px; }
+    /* Adjust text sizes for large screens */
+    .book-name {
+        font-size: 1.4rem; /* Larger title */
+        white-space: normal; /* Ensure wrapping */
+    }
+    .book-description {
+        font-size: 0.9rem; /* Larger description */
+        line-height: 1.5; /* Adjust line spacing */
+    }
+}
+
+/* ========== Footer Styles ========== */
+/* Copied from other pages for consistency */
+
+.footer {
+    background: #0f0f0f; /* Matches body background */
+    color: #FFD700; /* Gold text */
+    text-align: center;
+    padding: 2rem 1rem 1rem 1rem;
+    font-family: 'Milker', sans-serif;
+    overflow: hidden; /* Keeps doodles contained */
+    margin-top: 4rem; /* Space above footer */
+    width: 100%;
+    box-sizing: border-box; /* Includes padding in width */
+    flex-shrink: 0; /* Prevents shrinking in body flex layout */
+}
+
+.footer p { margin: 0 0 1rem 0; font-size: 0.9rem; }
+
+.footer-doodles {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.footer-doodle {
+    width: 50px; height: 50px;
+    object-fit: contain;
+    animation: float 8s ease-in-out infinite;
+    opacity: 0.9;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.footer-doodle:hover { transform: scale(1.2); opacity: 1; }
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.footer-doodle:nth-child(1) { animation-delay: 0s; }
+.footer-doodle:nth-child(2) { animation-delay: 1s; }
+.footer-doodle:nth-child(3) { animation-delay: 2s; }
+.footer-doodle:nth-child(4) { animation-delay: 3s; }
+.footer-doodle:nth-child(5) { animation-delay: 4s; }
+.footer-doodle:nth-child(6) { animation-delay: 5s; }
+.footer-doodle:nth-child(7) { animation-delay: 6s; }
+
+@media (max-width: 768px) {
+    .footer { padding: 1.5rem 1rem 1rem 1rem; margin-top: 3rem; }
+    .footer-doodles { gap: 1rem; }
+    .footer-doodle { width: 40px; height: 40px; }
+    .footer p { font-size: 0.8rem; }
+}
+@media (max-width: 480px) {
+    .footer { padding: 1rem 0.5rem 0.5rem 0.5rem; margin-top: 2rem; }
+    .footer-doodles { gap: 0.8rem; }
+    .footer-doodle { width: 35px; height: 35px; }
+    .footer p { font-size: 0.75rem; }
+}
+
+/* ========== END OF BASE/FOOTER CSS ========== */
+
+
+/* ========== MODAL STYLES ========== */
+/* Styles for the pop-up modal window displaying book details */
+
+/* Pointer cursor already added to .book-card above */
+
+/* Modal background overlay */
+.modal-overlay {
+    display: none; /* Hidden by default, shown via JS */
+    position: fixed; /* Fixed position relative to viewport */
+    z-index: 1000; /* High z-index to appear on top */
+    left: 0; top: 0;
+    width: 100%; height: 100%; /* Cover entire screen */
+    overflow: auto; /* Allow scrolling if content overflows */
+    background-color: rgba(0, 0, 0, 0.85); /* Dark semi-transparent background */
+    justify-content: center; /* Center modal content horizontally (when display is flex) */
+    align-items: center; /* Center modal content vertically (when display is flex) */
+    padding: 1rem; /* Padding around the modal */
+    box-sizing: border-box;
+}
+
+/* Class added by JS to show the modal */
+.modal-visible {
+    display: flex; /* Use flex to enable centering */
+}
+
+/* Main modal content box */
+.modal-content {
+    position: relative; /* Positioning context for close button */
+    /* Subtle gradient background */
+    background: linear-gradient(180deg, #1f1f1f, #2a2a2a);
+    margin: auto; /* Helps centering */
+    padding: 25px; /* Inner padding */
+    border: 1px solid #FFD700; /* Gold border */
+    border-radius: 15px; /* Rounded corners */
+    width: 90%; /* Width relative to viewport */
+    max-width: 1000px; /* Maximum width */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Drop shadow */
+    color: #fff; /* Text color */
+    animation: fadeInModal 0.3s ease-out; /* Apply fade-in animation */
+}
+
+/* Fade-in animation keyframes */
+@keyframes fadeInModal {
+    from { opacity: 0; transform: scale(0.95); } /* Start transparent and slightly smaller */
+    to { opacity: 1; transform: scale(1); } /* Fade in to full opacity and size */
+}
+
+/* Modal close button ('X') */
+.modal-close-btn {
+    color: #FFD700; /* Gold color */
+    position: absolute; /* Position relative to modal-content */
+    top: 8px; right: 15px; /* Position in top-right corner */
+    font-size: 2.2rem; /* Size of the 'X' */
+    font-weight: bold;
+    line-height: 1; /* Adjust line height for better positioning */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+.modal-close-btn:hover,
+.modal-close-btn:focus {
+    color: #fff; /* Change color to white on hover/focus */
+    text-decoration: none; /* Remove potential underline */
+}
+
+/* Container for modal body content (image and text info) */
+.modal-body {
+    display: flex; /* Use Flexbox for side-by-side layout */
+    gap: 1.5rem; /* Space between image and text info */
+    align-items: flex-start; /* Align items to the top */
+}
+
+/* Book image inside the modal */
+.modal-book-image {
+    flex-shrink: 0; /* Prevent image from shrinking */
+    width: 30%; /* Relative width */
+    max-width: 250px; /* Maximum width */
+    height: auto; /* Height adjusts automatically */
+    aspect-ratio: 2 / 3; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the area */
+    border-radius: 10px; /* Rounded corners */
+    border: 2px solid rgba(255, 215, 0, 0.5); /* Subtle gold border */
+}
+
+/* Text information block inside the modal */
+.modal-book-info {
+    flex-grow: 1; /* Allow text block to take remaining space */
+    font-family: 'Milker', sans-serif; /* Apply Milker font */
+    /* Reset potential grid properties if copied from card */
+    grid-column: auto; grid-row: auto;
+    display: block; /* Standard block display */
+    text-align: left; /* Align text to the left */
+}
+
+/* Modal book title (H3) */
+.modal-book-info h3 {
+    font-family: 'Transcity', sans-serif; /* Apply Transcity font */
+    color: #FFD700; /* Gold color */
+    font-size: 1.6rem; /* Font size */
+    margin: 0 0 1rem 0; /* Bottom margin */
+    text-align: left; /* Ensure left alignment */
+    font-weight: bold;
+}
+
+/* Modal book description paragraph */
+.modal-book-info p {
+    font-family: 'Milker', sans-serif; /* Apply Milker font */
+    font-size: 0.9rem; /* Font size */
+    line-height: 1.5; /* Line spacing */
+    margin-bottom: 1.2rem; /* Space below description */
+    font-weight: bold; /* Make description bold */
+    text-align: left; /* Ensure left alignment */
+    max-height: none; /* Ensure full description is visible */
+    overflow: visible; /* Ensure full description is visible */
+}
+
+/* Heading for the buy links section */
+.modal-buy-links h4 {
+    color: #FFD700; /* Gold color */
+    margin-bottom: 0.6rem; /* Space below heading */
+    font-size: 1rem; /* Font size */
+    text-align: left; /* Ensure left alignment */
+    font-weight: bold;
+}
+
+/* Container for the buy links/buttons */
+.modal-buy-links {
+     text-align: left; /* Align buttons to the left */
+     padding-top: 0.5rem; /* Space above the buttons */
+}
+
+/* Individual buy buttons */
+.modal-buy-links a.buy-button {
+    display: inline-block; /* Allow margin/padding */
+    background-color: #FFD700; /* Gold background */
+    color: #121212; /* Dark text */
+    padding: 8px 16px; /* Button padding */
+    margin: 4px 8px 4px 0; /* Margin around buttons (right/bottom) */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+/* Buy button hover effect */
+.modal-buy-links a.buy-button:hover {
+    background-color: #fff; /* White background on hover */
+    color: #121212; /* Keep dark text */
+    transform: scale(1.03); /* Slightly enlarge button */
+}
+
+/* Responsive adjustments for the modal on smaller screens (<= 768px) */
+@media (max-width: 768px) {
+    /* Adjust modal content padding, size, and scrolling */
+    .modal-content {
+        padding: 20px;
+        max-width: 95%; /* Allow modal to be wider */
+        max-height: 90vh; /* Limit height */
+        overflow-y: auto; /* Enable vertical scrolling if needed */
+    }
+    /* Stack modal image and text vertically */
+    .modal-body {
+        flex-direction: column; /* Stack items */
+        align-items: center; /* Center items horizontally */
+        gap: 1rem; /* Space between stacked items */
+    }
+    /* Adjust modal image size */
+    .modal-book-image {
+        width: 40%; /* Adjust width */
+        max-width: 180px; /* Limit max width */
+    }
+    /* Center text content */
+    .modal-book-info { text-align: center; }
+    .modal-book-info h3 { font-size: 1.3rem; text-align: center; }
+    .modal-book-info p { font-size: 0.85rem; text-align: center; }
+    /* Center buy links section */
+    .modal-buy-links { text-align: center; }
+    .modal-buy-links h4 { text-align: center; font-size: 1rem; }
+    /* Adjust button margin for centered layout */
+    .modal-buy-links a.buy-button { padding: 8px 16px; margin: 4px; }
+}
+
+/* ========== END OF MODAL CSS ========== */
+
+/* ========== END OF BOOKS PAGE CSS ========== */
+/* This CSS file is specifically for the books page (books.html).
+   It includes styles for the layout, book cards, responsive design,
+   footer, and modal pop-up for book details. */

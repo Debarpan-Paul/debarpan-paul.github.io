@@ -1,0 +1,406 @@
+/* ==========================================================================
+   Interests Page Stylesheet (interests.css)
+   - Styles specifically for the interests page (interests.html).
+   - Defines layout for interest cards, responsive adjustments, footer,
+     and custom cursor functionality.
+   ========================================================================== */
+
+/* ========== Custom Font Definitions ========== */
+/* Loads custom fonts used throughout the page.
+   'font-display: swap;' helps show text faster while fonts load. */
+
+   @font-face {
+    font-family: 'Transcity'; /* Define the font name */
+    /* Path to the font file relative to this CSS file */
+    src: url('../fonts/transcity/Transcity.otf') format('opentype');
+    font-display: swap; /* Strategy for font loading */
+}
+
+@font-face {
+    font-family: 'Milker'; /* Define the font name */
+    /* Path to the font file relative to this CSS file */
+    src: url('../fonts/milker/Milker.otf') format('opentype');
+    font-display: swap; /* Strategy for font loading */
+}
+
+@font-face {
+    font-family: 'OnePlusSans'; /* Define the font name */
+     /* Path to the font file relative to this CSS file */
+    src: url('../fonts/oneplussans/OnePlusSans.ttf') format('truetype');
+    font-display: swap; /* Strategy for font loading */
+}
+
+
+/* ========== CSS Variables (Custom Properties) ========== */
+/* Defines reusable values for colors, fonts, etc., for consistency and easy updates. */
+:root {
+    /* Color Palette */
+    --primary-color: #FFD700;      /* Gold: Used for titles, links, accents */
+    --secondary-color: #ffffff;    /* White: Used for secondary text, descriptions */
+    --accent-color: #FFD700;       /* Gold: Reused for hover effects, etc. */
+    --background-color: #0f0f0f;   /* Dark Grey/Black: Main page background */
+    --text-color: #ffffff;         /* White: Default text color */
+    --card-background: rgba(255, 255, 255, 0.1); /* Semi-transparent white: Card background */
+    --card-hover-background: rgba(255, 215, 0, 0.2); /* Semi-transparent gold: Card background on hover */
+    --footer-background: #0f0f0f;  /* Dark Grey/Black: Footer background, matching body */
+    --footer-text-color: #FFD700;  /* Gold: Footer text color */
+
+    /* Fonts */
+    /* Defines the primary font family to be used, with sans-serif as a fallback. */
+    --main-font: 'Inter', sans-serif;
+    /* Note: Specific elements override this later with Transcity, Milker, OnePlusSans */
+}
+
+/* ========== Base Styles & Reset ========== */
+
+/* Universal reset for box-sizing, margin, and padding */
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    margin: 0; /* Removes default margins */
+    padding: 0; /* Removes default padding */
+}
+
+/* Ensures the html element covers the full viewport height */
+html {
+    height: 100%;
+}
+
+/* Body styling and layout setup */
+body {
+    font-family: var(--main-font); /* Sets the default font (Inter) */
+    line-height: 1.6; /* Default spacing between lines of text */
+    color: var(--text-color); /* Sets default text color to white */
+    background-color: var(--background-color); /* Sets the dark background color */
+    display: flex; /* Enables Flexbox layout */
+    flex-direction: column; /* Arranges children (main, footer) vertically */
+    min-height: 100vh; /* Ensures body takes at least full viewport height (helps push footer down) */
+    /* NOTE: cursor: none; is applied later in the Custom Cursor section */
+}
+
+/* Basic image styling */
+img {
+    max-width: 100%; /* Ensures images don't overflow their containers */
+    height: auto; /* Maintains image aspect ratio */
+    display: block; /* Removes extra space below images */
+}
+
+/* Basic link styling */
+a {
+    color: var(--primary-color); /* Sets link color to gold */
+    text-decoration: none; /* Removes default underline */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+/* Link hover/focus state */
+a:hover,
+a:focus {
+    color: var(--secondary-color); /* Changes link color to white on hover/focus */
+    text-decoration: underline; /* Adds underline on hover/focus */
+}
+
+/* ========== Main Content Area Styles ========== */
+
+/* Container for the main interests section */
+.interests-content {
+    flex-grow: 1; /* Allows this section to expand and fill available space, pushing the footer down */
+    padding: 2rem 5%; /* Adds padding: 2rem top/bottom, 5% left/right */
+    margin: 0 auto; /* Centers the content horizontally if max-width is set */
+    width: 100%; /* Ensures it takes full available width */
+}
+
+/* Main heading (H1) style */
+.interests-content h1 {
+    color: var(--primary-color); /* Gold color for the heading */
+    margin-bottom: 0.5rem; /* Space below the heading */
+    text-align: center; /* Centers the heading text */
+    font-size: 2.5rem; /* Sets the base font size for the heading */
+    font-family: 'Transcity', sans-serif; /* Applies the custom Transcity font */
+}
+
+/* Introductory paragraph style */
+.intro-text {
+    text-align: center; /* Centers the intro text */
+    margin-bottom: 2.5rem; /* Space below the intro text */
+    color: var(--secondary-color); /* White color for the text */
+    font-size: 1.1rem; /* Sets the font size */
+    font-family: 'Milker', sans-serif; /* Applies the custom Milker font */
+}
+
+/* ========== Interests Grid Layout ========== */
+
+/* Container for the interest cards */
+.interests-grid {
+    display: grid; /* Uses CSS Grid for layout */
+    /* Creates responsive columns by default:
+       - auto-fit: Creates as many columns as fit.
+       - minmax(300px, 1fr): Each column is at least 300px wide, and they share extra space equally (1fr). */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem; /* Sets the space between grid items (cards) */
+}
+
+/* ========== Interest Card Styles ========== */
+
+/* Individual interest card styling */
+.interest-card {
+    background: var(--card-background); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Adds a frosted glass effect behind the card */
+    border-radius: 1rem; /* Rounds the corners of the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+    overflow: hidden; /* Ensures content (like images) respects the rounded corners */
+    display: flex; /* Uses Flexbox for internal layout */
+    flex-direction: column; /* Stacks card children (image, content) vertically */
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effects */
+    border: 1px solid rgba(255, 215, 0, 0.1); /* Adds a very subtle gold border */
+}
+
+/* Card hover effect */
+.interest-card:hover {
+    transform: translateY(-5px) scale(1.03); /* Lifts the card slightly and enlarges it */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Increases the shadow intensity */
+    background: var(--card-hover-background); /* Changes background to semi-transparent gold */
+}
+
+/* Container for the card image */
+.interest-card__image-container {
+    width: 100%; /* Takes full width of the card */
+    background-color: rgba(255, 255, 255, 0.05); /* Dark placeholder background for loading images */
+    aspect-ratio: 3 / 2; /* Sets a fixed 3:2 aspect ratio for the image area */
+    overflow: hidden; /* Hides parts of the image that might overflow */
+}
+
+/* Card image itself */
+.interest-card__image-container img {
+    width: 100%; /* Makes image fill the container width */
+    height: 100%; /* Makes image fill the container height */
+    object-fit: cover; /* Scales the image to cover the container, cropping if necessary */
+}
+
+/* Container for the card's text content */
+.interest-card__content {
+    padding: 1.25rem; /* Adds padding inside the content area */
+    flex-grow: 1; /* Allows this area to grow, pushing potential links to the bottom */
+    display: flex; /* Uses Flexbox for internal alignment */
+    flex-direction: column; /* Stacks title and description vertically */
+}
+
+/* Card title (H2) style */
+.interest-card__title {
+    color: var(--primary-color); /* Gold color for the title */
+    margin-bottom: 0.75rem; /* Space below the title */
+    font-size: 1.3rem; /* Sets the font size */
+    font-weight: bold; /* Makes the title bold */
+    font-family: 'Milker', sans-serif; /* Applies the custom Milker font */
+}
+
+/* Card description paragraph style */
+.interest-card__description {
+    font-size: 1rem; /* Sets the font size */
+    color: var(--secondary-color); /* White color for the description */
+    flex-grow: 1; /* Allows description to take available space if card heights vary */
+    margin-bottom: 1rem; /* Space below the description (before potential link) */
+    line-height: 1.5; /* Spacing between lines */
+    font-family: 'OnePlusSans', sans-serif; /* Applies the custom OnePlusSans font */
+}
+
+/* Optional link style within a card (if you add one) */
+.interest-card__link {
+    align-self: flex-start; /* Aligns the link to the left */
+    font-weight: bold; /* Makes the link bold */
+    color: var(--primary-color); /* Gold color for the link */
+    /* font-family: 'Milker', sans-serif; */ /* Optionally apply a custom font */
+}
+
+/* Optional link hover state */
+.interest-card__link:hover,
+.interest-card__link:focus {
+    color: var(--secondary-color); /* Changes link color to white on hover/focus */
+}
+
+
+/* ========== Footer Styles ========== */
+/* Styles copied from other pages for consistency */
+
+.footer {
+    background: var(--footer-background); /* Dark background */
+    color: var(--footer-text-color); /* Gold text */
+    text-align: center; /* Centers footer content */
+    padding: 2rem 1rem 1rem 1rem; /* Padding: Top 2rem, L/R 1rem, Bottom 1rem */
+    font-family: 'Milker', sans-serif; /* Applies Milker font to footer */
+    overflow: hidden; /* Prevents doodles from overflowing */
+    margin-top: 4rem; /* Space above the footer */
+    width: 100%; /* Ensures footer spans full width */
+    box-sizing: border-box; /* Includes padding in width calculation */
+    flex-shrink: 0; /* Prevents footer from shrinking in the body flex layout */
+}
+
+/* Style for any paragraph text within the footer */
+.footer p {
+    margin: 0 0 1rem 0; /* Space below paragraph */
+    font-size: 0.9rem; /* Font size for footer text */
+    font-family: 'Milker', sans-serif; /* Ensures consistent font */
+}
+
+/* Container for the animated doodles in the footer */
+.footer-doodles {
+    position: relative; /* Needed for potential absolute positioning inside */
+    display: flex; /* Uses Flexbox for layout */
+    flex-wrap: wrap; /* Allows doodles to wrap onto multiple lines */
+    justify-content: center; /* Centers doodles horizontally */
+    gap: 2rem; /* Space between doodles */
+    max-width: 1200px; /* Limits the width of the doodle container */
+    margin-left: auto; /* Centers the container itself */
+    margin-right: auto; /* Centers the container itself */
+}
+
+/* Individual doodle image styles */
+.footer-doodle {
+    width: 50px; /* Doodle width */
+    height: 50px; /* Doodle height */
+    object-fit: contain; /* Scales image while preserving aspect ratio */
+    animation: float 8s ease-in-out infinite; /* Applies the floating animation */
+    opacity: 0.9; /* Slightly transparent */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth hover transition */
+}
+
+/* Doodle hover effect */
+.footer-doodle:hover {
+    transform: scale(1.2); /* Enlarges the doodle */
+    opacity: 1; /* Makes it fully opaque */
+}
+
+/* Keyframes for the floating animation */
+@keyframes float {
+    0% { transform: translateY(0px); } /* Start position */
+    50% { transform: translateY(-15px); } /* Move up */
+    100% { transform: translateY(0px); } /* Return to start position */
+}
+
+/* Staggering the animation start times for each doodle */
+.footer-doodle:nth-child(1) { animation-delay: 0s; }
+.footer-doodle:nth-child(2) { animation-delay: 1s; }
+.footer-doodle:nth-child(3) { animation-delay: 2s; }
+.footer-doodle:nth-child(4) { animation-delay: 3s; }
+.footer-doodle:nth-child(5) { animation-delay: 4s; }
+.footer-doodle:nth-child(6) { animation-delay: 5s; }
+.footer-doodle:nth-child(7) { animation-delay: 6s; }
+
+
+/* ========== Responsive Design Adjustments ========== */
+
+/* --- Medium screens (e.g., Tablets | 768px and up) --- */
+@media (min-width: 768px) {
+    /* Adjust grid for tablets - allows slightly wider cards before wrapping */
+    .interests-grid {
+         grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+    /* Increase main heading size */
+     .interests-content h1 {
+        font-size: 3rem;
+    }
+    /* Adjust footer for tablets */
+    .footer { padding: 1.5rem 1rem 1rem 1rem; margin-top: 3rem; }
+    .footer-doodles { gap: 1rem; }
+    .footer-doodle { width: 40px; height: 40px; }
+    .footer p { font-size: 0.8rem; }
+}
+
+/* --- Large screens (e.g., Desktops | 1200px and up) --- */
+@media (min-width: 1200px) {
+    /* Increase main heading size further */
+    .interests-content h1 {
+        font-size: 4rem;
+    }
+
+    .interests-grid {
+        /* <<< THIS IS THE CHANGE: Forces exactly 3 columns on large screens >>> */
+        grid-template-columns: repeat(3, 1fr); /* Forces 3 equal columns */
+        /* The default auto-fit behavior is overridden for this breakpoint */
+    }
+
+
+    /* Adjust card text sizes for better readability on large screens */
+     .interest-card__title {
+        font-size: 1.4rem;
+    }
+    .interest-card__description {
+        font-size: 1.0rem; /* Slightly larger description */
+    }
+    /* Footer styles remain mostly the same as tablet, inherited */
+}
+
+
+/* --- Small screens (e.g., Mobile Phones | up to 600px) --- */
+@media (max-width: 600px) {
+    /* Adjust body line-height for better readability on small screens */
+    body {
+        line-height: 1.0; /* User Change: Reduced line height */
+    }
+    /* Adjust padding for the main content area */
+    .interests-content {
+        padding: 1.5rem 3%;
+    }
+    /* Adjust heading size for mobile */
+    .interests-content h1 {
+        font-size: 3.5rem; /* User Change: Increased mobile heading size */
+    }
+    /* Adjust intro text size for mobile */
+    .intro-text {
+        font-size: 1.0rem; /* User Change: Decreased mobile intro text size */
+    }
+    /* Adjust grid for mobile - allows cards down to 280px */
+    .interests-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem; /* Reduce gap between cards */
+    }
+    /* Adjust card title size for mobile */
+    .interest-card__title {
+        font-size: 1.3rem; /* User Change: Adjusted mobile card title size */
+    }
+    /* Adjust card description size for mobile */
+    .interest-card__description {
+        font-size: 1.0rem; /* User Change: Adjusted mobile card description size */
+    }
+    /* Adjust footer for mobile */
+    .footer { padding: 1rem 0.5rem 0.5rem 0.5rem; margin-top: 2rem; }
+    .footer-doodles { gap: 0.8rem; }
+    .footer-doodle { width: 35px; height: 35px; }
+    .footer p { font-size: 0.75rem; }
+}
+
+/* ========== Custom Cursor Styles ========== */
+
+/* Hides the default browser cursor across the page */
+body {
+    cursor: none;
+}
+
+/* Styles for the custom cursor element (controlled by JS) */
+.custom-cursor {
+    position: fixed; /* Keeps the cursor fixed relative to the viewport */
+    width: 20px; /* Width of the cursor element */
+    height: 20px; /* Height of the cursor element */
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    border-radius: 50%; /* Makes the element a circle */
+    pointer-events: none; /* Allows clicks/hovers to pass through the cursor element to elements underneath */
+    z-index: 10000; /* Ensures the cursor is visually on top of most other elements */
+    /* Centers the cursor element exactly on the mouse pointer's position */
+    transform: translate(-50%, -50%);
+    /* Smooth transitions for appearance changes (e.g., color, size) */
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+/* Example hover state (activated by JS adding the 'hover' class) */
+/* Uncomment and modify this if your script.js adds a 'hover' class */
+/*
+.custom-cursor.hover {
+    background-color: rgba(255, 215, 0, 0.8); // Example: Change color to semi-transparent gold
+    transform: translate(-50%, -50%) scale(1.5); // Example: Make the cursor slightly larger
+}
+*/
+
+/* ========== END OF INTERESTS PAGE CSS ========== */
+/* This CSS file is specifically for the interests page (interests.html).
+   It includes styles for the layout, interest cards, responsive design,
+   footer, and custom cursor functionality. */

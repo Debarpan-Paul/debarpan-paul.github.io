@@ -1,0 +1,467 @@
+/* ==========================================================================
+   Achievements Page Stylesheet (achievements.css)
+   - Styles for the achievements page including layout, cards, media, text.
+   - Includes base styles, responsive adjustments, footer, and custom cursor.
+   ========================================================================== */
+
+/* ========== Custom Font Definitions ========== */
+/* Loads custom fonts used on the page. */
+
+@font-face {
+    font-family: 'Transcity';
+    /* NOTE: Ensure '../fonts/transcity/Transcity.otf' is the correct path */
+    src: url('../fonts/transcity/Transcity.otf') format('opentype');
+    font-display: swap; /* Improve font loading */
+}
+
+@font-face {
+    font-family: 'Milker';
+     /* NOTE: Ensure '../fonts/milker/Milker.otf' is the correct path */
+    src: url('../fonts/milker/Milker.otf') format('opentype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'OnePlusSans';
+     /* NOTE: Ensure '../fonts/oneplussans/OnePlusSans.ttf' is the correct path */
+    src: url('../fonts/oneplussans/OnePlusSans.ttf') format('truetype'); /* ** ADDED font ** */
+    font-display: swap;
+}
+
+/* ========== CSS Variables ========== */
+/* Defines reusable values for colors, fonts, etc., for consistency. */
+:root {
+    /* Color Palette */
+    --bg-color: #0f0f0f;              /* Main page background (dark grey/black) */
+    --primary-accent-color: #FFD700;  /* Gold accent for titles, links, icons */
+    --text-color: #ffffff;            /* Default text color (white) */
+    --card-bg: rgba(255, 255, 255, 0.1);  /* Semi-transparent white card background */
+    --card-hover-bg: rgba(255, 215, 0, 0.2); /* Semi-transparent gold on card hover */
+    --footer-text-color: #FFD700;       /* Text color specifically for the footer */
+    --muted-text-color: rgba(255, 255, 255, 0.7); /* Slightly dimmed text for dates, separators */
+
+    /* Effects */
+    --card-blur: 10px;                /* Blur effect for card background */
+    --card-border-radius: 1rem;       /* Rounded corners for cards */
+
+    /* Fonts - Note: Specific elements now override these directly */
+    --heading-font: 'Transcity', sans-serif; /* Default heading font (may be overridden) */
+    --body-font: 'Milker', sans-serif;       /* Default body font (may be overridden) */
+}
+
+/* ========== Base Styles & Flexbox Footer Fix ========== */
+
+/* Basic reset for HTML */
+html {
+    height: 100%; /* Ensures html element covers full height */
+}
+
+/* Body setup */
+body {
+    display: flex;            /* Enables Flexbox layout */
+    flex-direction: column;   /* Arrange children (main, footer) vertically */
+    min-height: 100vh;        /* Body takes at least full viewport height (pushes footer down) */
+    margin: 0;                /* Remove default body margin */
+    background: var(--bg-color);/* Set main page background */
+    color: var(--text-color); /* Set default text color */
+    font-family: var(--body-font); /* Set default font (Milker) */
+    overflow-x: hidden;       /* Prevent accidental horizontal scrolling */
+    cursor: none; /* Hide the default system cursor to show only the custom one */
+}
+
+/* ========== Main Content Area ========== */
+
+/* Container for all achievement cards */
+main.achievements-container {
+    padding: 0 1rem 2rem 1rem; /* Padding: Top 0, Left/Right 1rem, Bottom 2rem */
+    flex-grow: 1;             /* Allows main content to expand and push footer down */
+    display: grid;            /* Use CSS Grid for layout */
+    grid-template-columns: 1fr; /* Always 1 column layout for cards */
+    gap: 2.5rem;              /* Vertical gap between achievement cards */
+    width: 100%;              /* Take full available width */
+    box-sizing: border-box;   /* Include padding in width calculation */
+}
+
+/* Main page title ("Achievements") */
+.page-title {
+    font-family: 'Transcity', sans-serif; /* Applied Transcity font */
+    font-size: 2.8rem;          /* Base font size */
+    color: var(--primary-accent-color); /* Gold color */
+    text-align: center;         /* Center align the text */
+    margin-top: 0.5rem;         /* Small space above title */
+    margin-bottom: 1rem;        /* REDUCED space below title */
+    font-weight: bold;          /* Make title bold */
+    grid-column: 1 / -1;        /* Span full grid width (necessary even in 1 column) */
+}
+
+/* ========== Achievement Card Styling ========== */
+
+/* Individual achievement card */
+.achievement-item {
+    background: var(--card-bg);           /* Semi-transparent background */
+    backdrop-filter: blur(var(--card-blur)); /* Apply background blur */
+    padding: 1.5rem;                      /* Internal padding */
+    border-radius: var(--card-border-radius); /* Rounded corners */
+    transition: transform 0.3s ease, background 0.3s ease; /* Smooth hover transition */
+    text-align: left;                     /* Align text inside card to the left */
+    position: relative;                   /* For potential absolute positioning inside */
+    z-index: 1;                           /* Ensure card is above background elements */
+    display: flex;                        /* Use Flexbox for internal layout */
+    flex-direction: column;               /* Stack children (media-row, info) vertically */
+    gap: 1.5rem;                          /* Gap between media block and text block */
+}
+
+/* Hover effect for the card */
+.achievement-item:hover {
+    transform: scale(1.01);             /* Slightly enlarge card on hover */
+    background: var(--card-hover-bg);   /* Change background tint on hover */
+}
+
+/* ---------- Media Row (Photo & Video) ---------- */
+
+/* Container for the side-by-side Photo/Video */
+.media-row {
+    display: grid;
+    grid-template-columns: 1fr; /* Default: 1 column (stacks media on mobile / if only one exists) */
+    gap: 1rem;                  /* Gap between photo and video when stacked */
+    align-items: start;         /* Align items to the top if heights differ */
+}
+
+/* Wrapper for each media item (photo or video) - used for structure */
+.media-item {
+    /* No specific styles needed, grid cell handles layout */
+}
+
+/* Photo container */
+.photo-container { }
+
+/* Photo itself */
+.achievement-photo {
+    display: block;                 /* Remove extra space below image */
+    width: 100%;                    /* Fill container width */
+    height: auto;                   /* Maintain aspect ratio */
+    aspect-ratio: 16 / 9;           /* Set aspect ratio (e.g., widescreen) */
+    object-fit: cover;              /* Cover the area, crop if needed */
+    border-radius: calc(var(--card-border-radius) / 2); /* Slightly rounded corners */
+    background-color: rgba(255, 255, 255, 0.05); /* Placeholder background */
+    border: 1px solid rgba(255, 215, 0, 0.2); /* Subtle border */
+}
+
+/* Video container wrapper */
+.video-container-wrapper { }
+
+/* Inner video container */
+.achievement-video-container {
+    width: 100%;    /* Take full width of its grid cell */
+    position: relative; /* For potential absolute positioning (like play buttons) */
+}
+
+/* Styling for both YouTube iframe and local video */
+.achievement-video-container iframe,
+.achievement-video-container video {
+    display: block;                 /* Remove extra space */
+    width: 100%;                    /* Fill container width */
+    height: auto;                   /* Maintain aspect ratio */
+    aspect-ratio: 16 / 9;           /* Set aspect ratio (e.g., widescreen) */
+    border: none;                   /* Remove default iframe border */
+    border-radius: calc(var(--card-border-radius) / 2); /* Match photo radius */
+    background-color: #000;         /* Black background while loading */
+}
+
+/* Placeholder text shown if no video/iframe is active */
+.video-placeholder-text {
+    display: flex;                  /* Center text inside */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    aspect-ratio: 16 / 9;           /* Match media aspect ratio */
+    background-color: rgba(0, 0, 0, 0.3); /* Dark placeholder background */
+    border-radius: calc(var(--card-border-radius) / 2); /* Match media radius */
+    color: var(--muted-text-color);
+    font-size: 0.9rem;
+    font-style: italic;
+    text-align: center;
+    border: 1px dashed var(--muted-text-color); /* Dashed border for placeholder */
+}
+
+/* Hide placeholder if iframe or video is actually present */
+.achievement-video-container iframe ~ .video-placeholder-text,
+.achievement-video-container video ~ .video-placeholder-text {
+    display: none;
+}
+
+/* ---------- Text Info Area ---------- */
+
+/* Container for all text content below media */
+.achievement-info {
+    /* Flows naturally below media row */
+}
+
+/* Container wrapping title, separator, and Drive link */
+.title-with-icon {
+    display: flex;            /* Arrange items horizontally */
+    align-items: baseline;    /* Align text baselines */
+    gap: 0.5em;               /* Space between title, separator, link */
+    flex-wrap: wrap;          /* Allow wrapping on very narrow screens */
+    margin-bottom: 0.5rem;    /* Space below this entire block */
+}
+
+/* Title text */
+.achievement-title {
+    font-family: 'Milker', sans-serif; /* Applied Milker font */
+    font-size: 1.6rem;          /* Base font size */
+    font-weight: bold;
+    color: var(--primary-accent-color); /* Gold color */
+    margin: 0;                  /* Remove default h3 margin */
+    line-height: 1.2;           /* Adjust for multi-line titles */
+}
+
+/* "|" separator */
+.title-separator {
+    color: var(--muted-text-color);   /* Muted color */
+    font-size: 1.2em;               /* Slightly larger */
+    font-weight: normal;
+    padding: 0 0.1em;               /* Tiny horizontal space */
+}
+
+/* Google Drive link */
+.drive-link {
+    display: inline-flex;       /* Keep link text and icon together */
+    align-items: center;        /* Vertically center text and icon */
+    gap: 0.35em;                /* Space between "Project Files" and icon */
+    color: var(--primary-accent-color); /* Gold color */
+    text-decoration: none;      /* Remove underline */
+    font-size: 0.8em;           /* Smaller text size */
+    font-family: var(--body-font); /* Use body font (Milker) */
+    font-weight: bold;
+    transition: color 0.2s ease, transform 0.2s ease; /* Hover transition */
+}
+
+/* Hover state for Drive link */
+.drive-link:hover {
+    color: var(--text-color);   /* Change color on hover */
+    transform: scale(1.05);     /* Slightly enlarge on hover */
+}
+
+/* Text part of the Drive link ("Project Files") */
+.drive-link-text {
+    /* No specific styles needed currently */
+}
+
+/* Drive icon image within the link */
+.drive-icon {
+    height: 1.1em;            /* Size relative to link text font size */
+    width: auto;              /* Maintain aspect ratio */
+    vertical-align: middle;   /* Align nicely with text */
+}
+
+/* Achievement date text */
+.achievement-date {
+    font-family: var(--body-font); /* Uses Milker via variable */
+    font-size: 0.85rem;
+    color: var(--muted-text-color);
+    margin-bottom: 0.75rem;   /* Space below date */
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 0;            /* Ensure no extra top margin */
+}
+
+/* Main description paragraph */
+.achievement-description {
+    font-family: 'OnePlusSans', sans-serif; /* ** MODIFIED: Applied OnePlusSans font ** */
+    font-size: 1rem;            /* Base font size */
+    color: var(--text-color);
+    line-height: 1.6;           /* Spacing between lines */
+    word-wrap: break-word;      /* Allow long words/URLs to break */
+    overflow-wrap: break-word;
+    text-align: left;
+    font-weight: bold;          /* Make description bold */
+    margin-top: 0;
+}
+
+/* ---------- "Read More" Functionality ---------- */
+
+/* Hidden text span */
+.more-text {
+    display: none; /* Hidden by default */
+}
+
+/* Class added by JS to show the hidden text */
+.more-text.visible {
+    display: inline; /* Show the text inline */
+}
+
+/* "Read More" / "Read Less" button */
+.read-more-btn {
+    display: inline;            /* Keep on same line as text */
+    background: none;           /* Transparent background */
+    border: none;               /* No border */
+    color: var(--primary-accent-color); /* Gold color */
+    text-decoration: underline; /* Underline like a link */
+    cursor: pointer;            /* Pointer cursor on hover */
+    font-family: var(--body-font); /* Uses Milker via variable */
+    font-size: 0.9em;           /* Slightly smaller than description */
+    font-weight: bold;
+    padding: 0;                 /* Remove padding */
+    margin-left: 5px;           /* Space before the button */
+    transition: color 0.2s ease; /* Smooth color transition */
+}
+
+/* Hover state for the button */
+.read-more-btn:hover {
+    color: var(--text-color);   /* Change color on hover */
+}
+
+/* ========== Responsive Adjustments ========== */
+
+/* Medium screens and up (Tablets, small desktops) */
+@media (min-width: 768px) {
+    /* Adjust main container padding and gap */
+    main.achievements-container { padding: 0 1.5rem 2rem 1.5rem; gap: 3rem; }
+    /* Increase page title size */
+    .page-title { font-size: 3.5rem; margin-top: 1rem; margin-bottom: 1.2rem; }
+    /* Adjust card padding and internal gap */
+    .achievement-item { padding: 1.8rem; gap: 1.8rem; }
+    /* Switch media row to 2 columns */
+    .media-row { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    /* Adjust text sizes */
+    .achievement-title { font-size: 1.8rem; }
+    .drive-link { font-size: 0.85em; }
+    .achievement-description { font-size: 1.05rem; }
+}
+
+/* Large screens (Desktops) */
+@media (min-width: 1200px) {
+     /* Adjust main container padding and gap */
+     main.achievements-container { padding: 0 2rem 3rem 2rem; gap: 3.5rem; }
+    /* Increase page title size */
+    .page-title { font-size: 4.0rem; margin-top: 1.0rem; margin-bottom: 0rem; }
+     /* Adjust card padding and internal gap */
+     .achievement-item { padding: 1rem; gap: 1rem; }
+     /* Increase gap between media items */
+     .media-row { gap: 2rem; }
+     /* Adjust text sizes */
+     .achievement-title { font-size: 2rem; }
+     .drive-link { font-size: 0.9em; }
+    .achievement-description { font-size: 1.1rem; }
+}
+
+/* Small screens (Mobile) */
+@media (max-width: 767px) {
+     /* Adjust main container padding and gap */
+     main.achievements-container { padding: 0 1rem 1.5rem 1rem; gap: 2rem; }
+     /* Increase mobile page title size */
+     .page-title { font-size: 4.0rem; margin-top: 0.5rem; margin-bottom: 0rem; }
+    /* Adjust card padding and internal gap */
+    .achievement-item { padding: 1.2rem; gap: 1.2rem; }
+     /* Media row stays 1 column, adjust gap */
+     .media-row { gap: 1rem; }
+     /* Adjust text sizes */
+    .achievement-title { font-size: 1.4rem; }
+     .drive-link { font-size: 0.75em; }
+    .achievement-date { font-size: 0.8rem; }
+    .achievement-description { font-size: 0.9rem; line-height: 1.5; }
+     .read-more-btn { font-size: 0.85em; }
+}
+
+/* ========== Footer Styles ========== */
+/* Styles copied from main stylesheet for consistency */
+
+.footer {
+    background: var(--bg-color); /* Use variable for background */
+    color: var(--footer-text-color); /* Use variable for text color */
+    text-align: center;
+    padding: 2rem 1rem 1rem 1rem; /* Padding: Top, L/R, Bottom */
+    font-family: var(--body-font); /* Use variable for font */
+    overflow: hidden; /* Prevent content (doodles) from spilling out */
+    margin-top: 4rem; /* Space above the footer */
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding in width */
+    flex-shrink: 0; /* Prevent footer from shrinking in flex layout */
+}
+
+.footer p {
+    margin: 0 0 1rem 0; /* Bottom margin */
+    font-size: 0.9rem; /* Font size */
+}
+
+.footer-doodles {
+    position: relative; /* For potential positioning context */
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: center; /* Center items horizontally */
+    gap: 2rem; /* Space between doodles */
+}
+
+.footer-doodle {
+    width: 50px; /* Doodle width */
+    height: 50px; /* Doodle height */
+    object-fit: contain; /* Scale image correctly */
+    animation: float 8s ease-in-out infinite; /* Apply floating animation */
+    opacity: 0.9; /* Slight transparency */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth hover transition */
+}
+
+.footer-doodle:hover {
+    transform: scale(1.2); /* Enlarge on hover */
+    opacity: 1; /* Fully opaque on hover */
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); } /* Start position */
+    50% { transform: translateY(-15px); } /* Move up */
+    100% { transform: translateY(0px); } /* Back to start */
+}
+
+/* Stagger animation delays for doodles */
+.footer-doodle:nth-child(1) { animation-delay: 0s; }
+.footer-doodle:nth-child(2) { animation-delay: 1s; }
+.footer-doodle:nth-child(3) { animation-delay: 2s; }
+.footer-doodle:nth-child(4) { animation-delay: 3s; }
+.footer-doodle:nth-child(5) { animation-delay: 4s; }
+.footer-doodle:nth-child(6) { animation-delay: 5s; }
+.footer-doodle:nth-child(7) { animation-delay: 6s; }
+
+/* Responsive Footer Styles */
+@media (max-width: 768px) {
+    .footer { padding: 1.5rem 1rem 1rem 1rem; margin-top: 3rem; }
+    .footer-doodles { gap: 1rem; } /* Reduce gap */
+    .footer-doodle { width: 40px; height: 40px; } /* Smaller doodles */
+    .footer p { font-size: 0.8rem; } /* Smaller text */
+}
+
+@media (max-width: 480px) {
+    .footer { padding: 1rem 0.5rem 0.5rem 0.5rem; margin-top: 2rem; }
+    .footer-doodles { gap: 0.8rem; } /* Further reduce gap */
+    .footer-doodle { width: 35px; height: 35px; } /* Even smaller doodles */
+    .footer p { font-size: 0.75rem; } /* Even smaller text */
+}
+
+/* ========== Custom Cursor ========== */
+/* Styles for the custom cursor element */
+
+.custom-cursor {
+    position: fixed; /* Position relative to the viewport */
+    width: 20px; /* Cursor width */
+    height: 20px; /* Cursor height */
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+    border-radius: 50%; /* Make it circular */
+    pointer-events: none; /* Allow clicks/hovers to pass through */
+    z-index: 10000; /* Keep it on top */
+    transform: translate(-50%, -50%); /* Center the element on the actual mouse coordinates */
+    transition: background-color 0.3s, transform 0.1s; /* Smooth transitions for visual changes */
+}
+
+/* Example hover state (requires JS to add the 'hover' class) */
+/* Uncomment and customize if needed */
+/*
+.custom-cursor.hover {
+    background-color: rgba(255, 215, 0, 0.8); // Example: Gold tint on hover
+    transform: translate(-50%, -50%) scale(1.5); // Example: Make cursor larger
+}
+*/
+
+/* ========== END OF ACHIEVEMENTS STYLESHEET (achievements.css) ========== */
+/* This CSS file is specifically for the achievements page.
+   It includes styles for the page layout, achievement cards, media display,
+   responsive design, footer, and custom cursor functionality. */
