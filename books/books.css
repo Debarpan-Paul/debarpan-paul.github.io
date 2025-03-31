@@ -23,6 +23,13 @@ body {
     /* Note: Font family, default color, and cursor:none are likely inherited from style.css */
 }
 
+/* Hide the custom cursor on mobile devices */
+@media (max-width: 768px) { /* Adjust the breakpoint as needed */
+    .custom-cursor {
+        display: none;
+    }
+}
+
 /* Main content container for the book cards */
 .books-container {
     display: grid; /* Uses CSS Grid for layout */

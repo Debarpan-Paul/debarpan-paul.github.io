@@ -391,6 +391,13 @@ body {
     transition: background-color 0.3s, transform 0.1s;
 }
 
+/* Hide the custom cursor on mobile devices */
+@media (max-width: 768px) { /* Adjust the breakpoint as needed */
+    .custom-cursor {
+        display: none;
+    }
+}
+
 /* Example hover state (activated by JS adding the 'hover' class) */
 /* Uncomment and modify this if your script.js adds a 'hover' class */
 /*
